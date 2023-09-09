@@ -1,6 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -10,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    checkFirebaseConnection(); // Call it here
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -31,10 +37,27 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page1'),
     );
   }
 }
+
+Future<void> checkFirebaseConnection() async {
+  try {
+    await Firebase.initializeApp();
+    if (kDebugMode) {
+      print("Firebase is connected!");
+    }
+    // You can proceed with Firebase operations here.
+  } catch (e) {
+    if (kDebugMode) {
+      print("Failed to connect to Firebase: $e");
+    }
+  }
+}
+
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
