@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_ecommerce/ui/registration.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,9 +13,9 @@ import '../const/Colors.dart';
 
 
 
-class LogInScreen extends StatefulWidget {
+class RegistrationScreen extends StatefulWidget {
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
 String prettyPrint(Map json) {
@@ -26,25 +24,14 @@ String prettyPrint(Map json) {
   return pretty;
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController? _emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
   bool _isObscure = true;
-  String _userId = "";
-  String _accessToken1 = "";
-  String _refreshToken = "";
-  String _userUUId = "";
-  int _darkOrLightStatus = 1;
 
-  //social login
-  // GoogleSignInAccount? _currentUser;
-  Map? userData = {};
-  String _contactText = '';
-  String _fbName = "";
-  String _fbEmail = "";
 
-  String _gmName = "";
-  String _gmEmail = "";
+
+
   @override
   void initState() {
 
@@ -106,16 +93,15 @@ class _LogInScreenState extends State<LogInScreen> {
           ),
         ),
         child: Padding(
-            padding:
-              EdgeInsets.only(left: 20.w, top: 10.h, right: 20.w, bottom: 20.h),
+            padding: EdgeInsets.only(left: 20.w, top: 10.h, right: 20.w, bottom: 20.h),
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
+                    SizedBox(
                     height: 10.h,
                   ),
-                  Text(
-                    "Sign In",
+                    Text(
+                    "Sign Up",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'PT-Sans',
@@ -124,10 +110,10 @@ class _LogInScreenState extends State<LogInScreen> {
                       color: text_color,
                     ),
                   ),
-                  SizedBox(
+                    SizedBox(
                     height: 20.h,
                   ),
-
+                  //dfg
                     Align(
                     alignment: Alignment.topLeft,
                     child: Text("Email",
@@ -164,56 +150,31 @@ class _LogInScreenState extends State<LogInScreen> {
                   userInputPassword(passwordController!, 'Password',
                       TextInputType.visiblePassword),
 
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: InkResponse(
-                      onTap: () {
 
-                      },
-                      child: Text("Forget Password?",
-                          style: TextStyle(
-                              color: text_color,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                  ),
                    SizedBox(
                     height: 30.h,
                   ),
                   _buildSignInButton(),
 
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin:   EdgeInsets.only(top: 20.h, bottom: 10.h),
-                      child: InkResponse(
-                        onTap: () {},
-                        child: Text("OR",
-                            style: TextStyle(
-                                color: text_color ,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500)),
-                      ),
-                    ),
-                  ),
+
 
                   Align(
                     alignment: Alignment.center,
                     child: Container(
-                      margin:   EdgeInsets.only(top: 10.h, bottom: 10.h),
+                      margin:   EdgeInsets.only(top: 15.h, bottom: 10.h),
                       child: Wrap(
                         direction: Axis.horizontal,
                         children: [
-                           Text("Don't have an account?",
+                           Text("Already have an account?",
                               style: TextStyle(
                                   color: text_color ,
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w600)),
                           InkResponse(
                             onTap: () {
-                              Navigator.push(context,CupertinoPageRoute(builder:(_)=> RegistrationScreen()));
+
                             },
-                            child:   Text(" Sign Up",
+                            child:   Text(" Sign In",
                                 style: TextStyle(
                                     color: MyAppColor.bg_color,
                                     fontSize: 15.sp,
@@ -253,7 +214,7 @@ class _LogInScreenState extends State<LogInScreen> {
             height: 50.h,
             alignment: Alignment.center,
             child:  Text(
-              "Sign In",
+              "Sign Up",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'PT-Sans',
