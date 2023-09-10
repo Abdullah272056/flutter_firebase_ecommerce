@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase_ecommerce/sign_up_page.dart';
+import 'package:flutter_firebase_ecommerce/ui/log_in.dart';
 import 'package:flutter_firebase_ecommerce/ui/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child:  const SplashScreen( ),
+      child:   LogInScreen( ),
     );
 
 

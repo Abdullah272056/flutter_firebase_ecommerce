@@ -5,25 +5,10 @@ import 'dart:ui';
 class MyAppColor{
 
   static const Color  bg_color = Color(0xFFD76E2D);
+  static const Color hint_color = Color(0xFFa8a8a8);
+  static const Color level_color = Color(0xFFa8a8a8);
+  static const Color input_box_bg_color = Color(0xFFF9F9FC);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
