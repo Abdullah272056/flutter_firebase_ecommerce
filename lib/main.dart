@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_firebase_ecommerce/ui/log_in.dart';
 import 'package:flutter_firebase_ecommerce/ui/registration.dart';
  import 'package:flutter_firebase_ecommerce/ui/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child:RegistrationScreen(),
+      child:LogInScreen(),
     );
 
 
@@ -52,17 +53,7 @@ class MyApp extends StatelessWidget {
 
   }
 
-
-
 }
-
-
-
-
-
-
-
-
 
 
 

@@ -2,14 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/common/toast.dart';
 import 'package:flutter_firebase_ecommerce/ui/registration.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../common/loading_dialog.dart';
 import '../const/Colors.dart';
+import 'home_screen.dart';
 
 
 
@@ -20,40 +24,20 @@ class LogInScreen extends StatefulWidget {
   State<LogInScreen> createState() => _LogInScreenState();
 }
 
-String prettyPrint(Map json) {
-  JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-  String pretty = encoder.convert(json);
-  return pretty;
-}
+
 
 class _LogInScreenState extends State<LogInScreen> {
   TextEditingController? _emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
   bool _isObscure = true;
   String _userId = "";
-  String _accessToken1 = "";
-  String _refreshToken = "";
-  String _userUUId = "";
-  int _darkOrLightStatus = 1;
 
-  //social login
-  // GoogleSignInAccount? _currentUser;
-  Map? userData = {};
-  String _contactText = '';
-  String _fbName = "";
-  String _fbEmail = "";
-
-  String _gmName = "";
-  String _gmEmail = "";
   @override
   void initState() {
 
 
     super.initState();
   }
-
-
-
 
 
   @override
@@ -236,9 +220,8 @@ class _LogInScreenState extends State<LogInScreen> {
           String emailTxt = _emailController!.text;
           String passwordTxt = passwordController!.text;
           if (_inputValid(emailTxt, passwordTxt) == false) {
-          //  _userLogIn(email: emailTxt, password: passwordTxt);
-            //Navigator.push(context,MaterialPageRoute(builder: (context)=> NavigationBarScreen(0,HomeScreen()),));
-
+            showLoadingDialog(context,"Checking...");
+            signIn(email: emailTxt, password: passwordTxt);
           } else {}
         },
         style: ElevatedButton.styleFrom(
@@ -271,7 +254,7 @@ class _LogInScreenState extends State<LogInScreen> {
   _inputValid(String email, String password) {
     if (email.isEmpty) {
       Fluttertoast.cancel();
-      _showToast("Email can't empty");
+      showToastShort("Email can't empty");
       return;
     }
     if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+"
@@ -279,34 +262,25 @@ class _LogInScreenState extends State<LogInScreen> {
     )
         .hasMatch(email)) {
       Fluttertoast.cancel();
-      _showToast("Enter valid email");
+      showToastShort("Enter valid email");
       return;
     }
 
     if (password.isEmpty) {
       Fluttertoast.cancel();
-      _showToast("Password can't empty");
+      showToastShort("Password can't empty");
       return;
     }
     if (password.length < 8) {
       Fluttertoast.cancel();
-      _showToast("Password must be 8 character");
+      showToastShort("Password must be 8 character");
       return;
     }
 
     return false;
   }
 
-  _showToast(String message) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
-        fontSize: 16.0);
-  }
+
 
 
 
@@ -413,6 +387,39 @@ class _LogInScreenState extends State<LogInScreen> {
 
 
 
+  signIn({required String email,required String password})async{
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+
+      var authCredential=userCredential.user;
+      Navigator.pop(context);
+      if(authCredential!.uid.isNotEmpty){
+
+
+        Navigator.push(context,CupertinoPageRoute(builder:(_)=> HomeScreen()));
+
+      }else{
+        showToastShort("Something is wrong!");
+      }
+
+
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        showToastShort('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        showToastShort('Wrong password provided for that user.');
+      }
+    } catch (e) {
+
+      print(e);
+    }
+
+  }
 
 
 
