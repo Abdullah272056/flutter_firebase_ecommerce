@@ -1,5 +1,35 @@
 import 'dart:ui';
 
+
+
+class MyAppColor{
+
+  static const Color  bg_color = Color(0xFFD76E2D);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /// Completely invisible.
 const Color transparent = Color(0x00000000);
 const Color awsStartColor = Color(0xFF56B5E3);

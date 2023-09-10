@@ -1,6 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_firebase_ecommerce/static/Colors.dart';
+import 'package:flutter_firebase_ecommerce/const/Colors.dart';
 import 'package:get/get.dart';
 
 

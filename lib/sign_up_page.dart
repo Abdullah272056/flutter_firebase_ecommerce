@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_ecommerce/sign_up_page_controller.dart';
-import 'package:flutter_firebase_ecommerce/static/Colors.dart';
+import 'package:flutter_firebase_ecommerce/const/Colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:get/get.dart';

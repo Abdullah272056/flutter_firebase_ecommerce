@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../static/Colors.dart';
+import '../const/Colors.dart';
 
 void showLoadingDialog(String message) {
 
