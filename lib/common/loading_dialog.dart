@@ -1,51 +1,46 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../const/Colors.dart';
 
-void showLoadingDialog(String message) {
-
-  Get.defaultDialog(
-      title: '',
-      titleStyle: TextStyle(fontSize: 0),
-      // backgroundColor: Colors.white.withOpacity(.8),
-      content: Wrap(
-        children: [
+void showLoadingDialog(BuildContext context,String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        actions: <Widget>[
           Container(
             alignment: Alignment.center,
             // margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20, bottom: 20),
             child:Column(
               children: [
-                const SizedBox(
-                  width: 10,
+                SizedBox(
+                  width: 10.w,
                 ),
                 Container(
-                  height:50,
-                  width: 50,
-                  margin: EdgeInsets.only(top: 10),
+                  height:45.w,
+                  width: 45.w,
+                  margin: EdgeInsets.only(top: 10.h),
                   child: CircularProgressIndicator(
-                    backgroundColor: awsStartColor,
-                    color: awsEndColor,
-                    strokeWidth: 6,
+                    backgroundColor: MyAppColor.bg_color.withOpacity(0.1),
+                    color: MyAppColor.bg_color,
+                    strokeWidth: 6.h,
                   ),
                 ),
-
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: EdgeInsets.only(top: 15.h),
                   child:Text(
                     message,
-                    style: const TextStyle(fontSize: 25,),
+                    style:   TextStyle(fontSize: 22.sp,color: text_color),
                   ),
                 ),
-
               ],
             ),
           )
         ],
-        // child: VerificationScreen(),
-      ),
-      barrierDismissible: false,
-      radius: 10.0);
-
-
+      );
+    },
+  );
 }
+

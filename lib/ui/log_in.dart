@@ -323,7 +323,7 @@ class _LogInScreenState extends State<LogInScreen> {
           borderRadius: BorderRadius.circular(10.r)),
       child: Padding(
         padding:
-           EdgeInsets.only(left: 25.0.w, top: 0.h, bottom: 0.h, right: 20.w),
+           EdgeInsets.only(left: 25.0.w, top: 0.h, bottom: 0.h, right: 10.w),
         child: TextField(
           controller: userInput,
           textInputAction: TextInputAction.next,
@@ -340,16 +340,15 @@ class _LogInScreenState extends State<LogInScreen> {
               minHeight: 15.h,
               minWidth: 15.h,
             ),
-            suffixIcon: Image(
-              image: const AssetImage(
-                'assets/images/icon_email.png',
+            suffixIcon:IconButton(
+                color: MyAppColor.bg_color,
+                icon:
+                Icon( Icons.email_outlined ,
+                  size: 25.h,
+                ),
+                onPressed: () {
 
-              ),
-             color:MyAppColor.bg_color,
-              height: 18.h,
-              width: 22.w,
-              fit: BoxFit.fill,
-            ),
+                }),
 
             // suffixIcon: Icon(Icons.email,color: Colors.hint_color,),
             // color: _darkOrLightStatus==1?intello_text_color:intello_bg_color_for_dark,
@@ -393,7 +392,10 @@ class _LogInScreenState extends State<LogInScreen> {
             suffixIcon: IconButton(
                 color: MyAppColor.bg_color,
                 icon:
-                Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                Icon(_isObscure ? Icons.visibility : Icons.visibility_off,
+                size: 25.h,
+
+                ),
                 onPressed: () {
                   setState(() {
                     _isObscure = !_isObscure;

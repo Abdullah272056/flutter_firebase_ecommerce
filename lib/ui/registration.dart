@@ -2,12 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_ecommerce/common/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../common/loading_dialog.dart';
 import '../const/Colors.dart';
+import 'home_screen.dart';
 
 
 
@@ -18,11 +23,6 @@ class RegistrationScreen extends StatefulWidget {
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-String prettyPrint(Map json) {
-  JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-  String pretty = encoder.convert(json);
-  return pretty;
-}
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController? _emailController = TextEditingController();
@@ -197,8 +197,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           String emailTxt = _emailController!.text;
           String passwordTxt = passwordController!.text;
           if (_inputValid(emailTxt, passwordTxt) == false) {
-          //  _userLogIn(email: emailTxt, password: passwordTxt);
-            //Navigator.push(context,MaterialPageRoute(builder: (context)=> NavigationBarScreen(0,HomeScreen()),));
+            showLoadingDialog(context,"Checking...");
+            signUp(email: emailTxt, password: passwordTxt);
+
+
 
           } else {}
         },
@@ -232,7 +234,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   _inputValid(String email, String password) {
     if (email.isEmpty) {
       Fluttertoast.cancel();
-      _showToast("Email can't empty");
+      showToastShort("Email can't empty");
       return;
     }
     if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+"
@@ -240,35 +242,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     )
         .hasMatch(email)) {
       Fluttertoast.cancel();
-      _showToast("Enter valid email");
+      showToastShort("Enter valid email");
       return;
     }
 
     if (password.isEmpty) {
       Fluttertoast.cancel();
-      _showToast("Password can't empty");
+      showToastShort("Password can't empty");
       return;
     }
     if (password.length < 8) {
       Fluttertoast.cancel();
-      _showToast("Password must be 8 character");
+      showToastShort("Password must be 8 character");
       return;
     }
 
     return false;
   }
-
-  _showToast(String message) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.white,
-        textColor: Colors.black,
-        fontSize: 16.0);
-  }
-
 
 
 
@@ -284,7 +274,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           borderRadius: BorderRadius.circular(10.r)),
       child: Padding(
         padding:
-           EdgeInsets.only(left: 25.0.w, top: 0.h, bottom: 0.h, right: 20.w),
+           EdgeInsets.only(left: 25.0.w, top: 0.h, bottom: 0.h, right: 10.w),
         child: TextField(
           controller: userInput,
           textInputAction: TextInputAction.next,
@@ -301,16 +291,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               minHeight: 15.h,
               minWidth: 15.h,
             ),
-            suffixIcon: Image(
-              image: const AssetImage(
-                'assets/images/icon_email.png',
+            suffixIcon:IconButton(
+                color: MyAppColor.bg_color,
+                icon:
+                Icon( Icons.email_outlined ,
+                  size: 25.h,
+                ),
+                onPressed: () {
 
-              ),
-             color:MyAppColor.bg_color,
-              height: 18.h,
-              width: 22.w,
-              fit: BoxFit.fill,
-            ),
+                }),
+
+
 
             // suffixIcon: Icon(Icons.email,color: Colors.hint_color,),
             // color: _darkOrLightStatus==1?intello_text_color:intello_bg_color_for_dark,
@@ -354,7 +345,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             suffixIcon: IconButton(
                 color: MyAppColor.bg_color,
                 icon:
-                Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                Icon(_isObscure ? Icons.visibility : Icons.visibility_off,
+                  size: 25.h,
+                ),
                 onPressed: () {
                   setState(() {
                     _isObscure = !_isObscure;
@@ -372,6 +365,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
 
 
+
+
+
+  signUp({required String email,required String password})async{
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+
+      var authCredential=userCredential.user;
+       Navigator.pop(context);
+      if(authCredential!.uid.isNotEmpty){
+
+
+        Navigator.push(context,CupertinoPageRoute(builder:(_)=> HomeScreen()));
+
+      }else{
+        showToastShort("Something is wrong!");
+      }
+
+
+    } on FirebaseAuthException catch (e) {
+       Navigator.pop(context);
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        showToastShort("The account already exists for that email.");
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+
+      print(e);
+    }
+
+  }
 
 
 
