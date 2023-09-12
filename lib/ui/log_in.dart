@@ -346,7 +346,8 @@ class _LogInScreenState extends State<LogInScreen> {
       margin:   EdgeInsets.only(bottom: 15.h),
       decoration: BoxDecoration(
           color: MyAppColor.input_box_bg_color,
-          borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(10)
+      ),
       child: Padding(
         padding:
           EdgeInsets.only(left: 25.0.w, top: 0.h, bottom: 0.h, right: 10.w),
@@ -358,7 +359,7 @@ class _LogInScreenState extends State<LogInScreen> {
           enableSuggestions: false,
           autofocus: false,
           cursorColor: text_color ,
-          style: TextStyle(
+          style: const TextStyle(
               color: text_color
           ),
           decoration: InputDecoration(
@@ -368,7 +369,6 @@ class _LogInScreenState extends State<LogInScreen> {
                 icon:
                 Icon(_isObscure ? Icons.visibility : Icons.visibility_off,
                 size: 25.h,
-
                 ),
                 onPressed: () {
                   setState(() {
@@ -394,24 +394,20 @@ class _LogInScreenState extends State<LogInScreen> {
           email: email,
           password: password
       );
-
       var authCredential=userCredential.user;
       Navigator.pop(context);
       if(authCredential!.uid.isNotEmpty){
-
-
         Navigator.push(context,CupertinoPageRoute(builder:(_)=> HomeScreen()));
-
-      }else{
+      }
+      else{
         showToastShort("Something is wrong!");
       }
-
-
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       if (e.code == 'user-not-found') {
         showToastShort('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
+      }
+      else if (e.code == 'wrong-password') {
         showToastShort('Wrong password provided for that user.');
       }
     } catch (e) {
